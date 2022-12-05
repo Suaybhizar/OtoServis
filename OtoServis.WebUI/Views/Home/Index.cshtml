@@ -1,0 +1,155 @@
+﻿@using OtoServis.Entities.Web;
+@using System.Text.RegularExpressions
+@using OtoServis.WebUI.Custom
+@{
+    ViewBag.Title = "Oto Servis";
+
+}
+
+@if (ViewBag.Slider != null)
+{
+    var slider = (List<Slider>)ViewBag.Slider;
+    int sayac = 0;
+
+    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="false">
+        <div class="carousel-indicators">
+            @for (int i = 0; i < slider.Count; i++)
+            {
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="@i" class="active" aria-current="true" aria-label="Slide @i"></button>
+
+            }
+
+        </div>
+        <div class="carousel-inner">
+            @foreach (var item in slider)
+            {
+                string aktif = "";
+                if (sayac == 0)
+                {
+                    aktif = "active";
+                }
+                <div class="carousel-item @aktif">
+                    <img src="@item.Resim" class="d-block w-100" alt="Araç Periyodik Bakım">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>@item.Baslik</h5>
+                        <p>@item.Tanimlama</p>
+                    </div>
+                </div>
+                sayac++;
+            }
+
+
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+}
+
+
+
+<div class="container mt-4">
+    @if (ViewBag.Kampanya != null)
+    {
+        var Kampanya = (Kampanya)ViewBag.Kampanya;
+        <div id="kampanya" class="row">
+            <div class="col">
+                @Html.Raw(Kampanya.Icerik)
+            </div>
+        </div>
+    }
+
+
+    <hr />
+    <h1 id="uygulamalarimiz" class="text-center">UYGULAMALARIMIZ</h1>
+    <div class="row my-5">
+        @if (ViewBag.Uygulama != null)
+        {
+            var uygulama = (List<Uygulama>)ViewBag.Uygulama;
+            foreach (var item in uygulama)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="@item.Resim" alt="@item.Baslik" />
+                        <div class="card-body">
+                            <div class="card-title">
+                                <h5 class="text-center">
+                                    @item.Baslik
+                                </h5>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
+
+
+
+    </div>
+    <hr />
+    <h1 id="hakkimizda" class="text-center">HAKKIMIZDA</h1>
+    <div class="row mt-5">
+        @if (ViewBag.Hakkimizda != null)
+        {
+            var hakkimizda = (Hakkimizda)ViewBag.Hakkimizda;
+            <div class="col-md-4">
+                <img class="img-fluid" src="@hakkimizda.Resim" alt="" />
+            </div>
+            <div class="col-md-8">
+                @Html.Raw(hakkimizda.Icerik)
+            </div>
+        }
+
+    </div>
+    <hr />
+    <h1 id="blog" class="text-center">BLOG</h1>
+    <div class="row mt-5">
+        @if (ViewBag.Blog != null)
+        {
+            var blog = (List<Blog>)ViewBag.Blog;
+            foreach (var item in blog)
+            {
+                <div class="col col-md-6 mt-4">
+                    <h5>
+                        <a class="text-dark" href="/@Ozel.LinkDuzenle(item.Baslik)/@item.BlogId">@item.Baslik</a>
+                    </h5>
+
+
+
+                    @{
+                        string kisaltma = Regex.Replace(item.Icerik, "<.*?>", string.Empty);
+                        if (kisaltma.Length > 200)
+                        {
+                            kisaltma = kisaltma.Substring(0, 200) + "...";
+                        }
+                        @kisaltma
+                    }
+
+
+                </div>
+            }
+
+        }
+
+
+    </div>
+    <hr />
+    <div id="iletisim" class="row">
+        <div class="col-12">
+            @if (ViewBag.Harita != null)
+            {
+                var harita = (Haritaletisim)ViewBag.Harita;
+                <span>@Html.Raw(harita.Harita)</span>
+            }
+        </div>
+    </div>
+</div>
+
+

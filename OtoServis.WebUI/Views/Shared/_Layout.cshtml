@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid text-dark">
+            <a class="navbar-brand text-dark" href="/Home/Index">XYZ Oto Servis</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active text-dark" aria-current="page" href="/Home/Index">Anasayfa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" aria-current="page" href="/Home/#kampanya">Kampanya</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" aria-current="page" href="/Home/#uygulamalarimiz">Uygulamalarımız</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" aria-current="page" href="/Home/#hakkimizda">Hakkımızda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" aria-current="page" href="/Home/#blog">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" aria-current="page" href="/Home/#iletisim">İletişim</a>
+                    </li>
+
+
+                    @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item "><a href="/Panel/" class="nav-link text-white bg-danger">Panel</a></li>
+
+                    }
+
+                </ul>
+
+                @Html.Partial("_LoginPartial")
+
+            </div>
+        </div>
+    </nav>
+    @RenderBody()
+    <div class="container body-content">
+
+        <hr />
+        <footer class="text-center">
+            
+            <address>
+               @Html.Raw(ViewBag.Adress)
+            </address>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

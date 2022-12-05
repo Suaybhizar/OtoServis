@@ -1,0 +1,159 @@
+﻿@using OtoServis.Entities.Servis;
+@model IEnumerable<OtoServis.Entities.Servis.Isemri>
+@{
+
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@if (ViewBag.AcikIsemirleri != null)
+{
+
+    var acik = (List<Isemri>)ViewBag.AcikIsemirleri;
+    if (acik.Count > 0)
+    {
+        <h5>Bu müşteriye ait iş emirleri</h5>
+    }
+    <table class="table table-sm table-responsive">
+        @foreach (var item in acik)
+        {
+            <tr>
+                <td>@item.Model.Marka.MarkaAd</td>
+                <td>@item.Model.ModelAd</td>
+                <td>@item.Plaka</td>
+                <td>@item.GelisTarihi.ToShortDateString()</td>
+            </tr>
+        }
+    </table>
+
+
+}
+
+<hr />
+
+@using (Html.BeginForm("IsemriKaydet", "Isemri"))
+{
+    <input type="hidden" name="MusteriId" value="@ViewBag.MusteriId" />
+    <div class="row">
+        <div class="col-md-4">
+            <label class="fw-bold fst-italic">Marka</label>
+            @Html.DropDownList("Markaid", new SelectList(ViewBag.Marka, "Markaid", "MarkaAd"), "Marka Seç",
+           new { @class = "form-control mt-2", required = "required", onchange = "ModelDoldur()" })
+        </div>
+        <div class="col-md-4">
+            <label class="fw-bold fst-italic mt-2">Model</label>
+            <select name="ModelId" id="ModelId" class="form-control mt-2">
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <label class="fw-bold fst-italic mt-2">Plaka</label>
+            <input type="text" name="Plaka" class="form-control mt-2" />
+        </div>
+        <div class="col-md-4">
+            <label class="fw-bold fst-italic mt-2">Şase No</label>
+            <input type="text" name="SaseNo" class="form-control mt-2" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <label class="fw-bold fst-italic mt-2">Araç Km</label>
+            <input type="text" name="AracKm" class="form-control mt-2" />
+        </div>
+        <div class="col-md-4">
+            <label class="fw-bold fst-italic mt-2">Model Yılı</label>
+            <input type="text" name="ModelYil" class="form-control mt-2" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <label class="fw-bold fst-italic mt-2">Yakıt türü</label>
+            <select name="YakitTuru" class="form-control mt-2">
+                <option>Benzin</option>
+                <option>Dizel</option>
+                <option>Hybrid</option>
+                <option>Elektrik</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label class="fw-bold fst-italic mt-2">Geliş Tarihi</label>
+            <input type="date" name="GelisTarihi" class="form-control mt-2" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-8 mt-2">
+            <label class="fw-bold fst-italic mt-2">Geliş Sebebi</label>
+            <textarea name="GelisSebebi" class="form-control mt-2"></textarea>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-8">
+            <input type="submit" class="btn btn-primary float-end mt-2" value="Kaydet" />
+        </div>
+    </div>
+
+}
+<hr />
+<table class="table table-sm table-responsive">
+    <thead>
+        <tr>
+            <th>Marka</th>
+            <th>Model</th>
+            <th>Plaka</th>
+            <th>Geliş Tarihi</th>
+            <th></th>
+
+        </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Model.Marka.MarkaAd</td>
+            <td>@item.Model.ModelAd</td>
+            <td>@item.Plaka</td>
+            <td>@item.GelisTarihi.ToShortDateString()</td>
+            <td>
+                @Html.ActionLink("İş Emri Oluştur", "IsemriOlusturSablon", new { isemriId = item.IsemriId }, new { @class = "btn btn-sm btn-success" })
+                @Html.ActionLink("Detay", "Detay", new { isemriId = item.IsemriId }, new { @class = "btn btn-sm btn-secondary" })
+            </td>
+
+        </tr>
+    }
+</table>
+
+
+
+<script>
+    function ModelDoldur() {
+        var _markaid = $('#Markaid').val();
+        if ($('#Markaid').val() == "") {
+            $('#Modelid').html("");
+            $('#Modelid').append(
+                $('<option></option>').val("").html("Model Seçiniz"));
+
+        }
+
+        else {
+            $.ajax({
+                url: '/MarkaModel/ModelDoldur',
+                type: 'GET',
+                dataType: 'JSON',
+                data: { markaid: _markaid },
+                success: function (modeller) {
+                    $('#ModelId').html("");
+                    $.each(modeller, function (i, model) {
+                        $('#ModelId').append($('<option></option>').val(model.ModelId).html(model.ModelAd));
+                    });
+                }
+
+            });
+        }
+
+    }
+
+</script>

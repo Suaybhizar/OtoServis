@@ -1,0 +1,82 @@
+﻿@model IEnumerable<OtoServis.Entities.Web.Uygulama>
+@{
+    ViewBag.Title = "Uygulamalar";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@using (Html.BeginForm("UygulamaKaydet", "Uygulama", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="row">
+        <div class="col-6">
+            Baslik
+            <input type="text" name="Baslik" class="form-control" required />
+        </div>
+        <div class="col-4">
+            Resim
+            <input type="file" name="Resim" class="form-control" required />
+            <br />
+        </div>
+        <div class="col-2">
+            <input type="submit" class="btn btn-primary" value="Kaydet" />
+        </div>
+    </div>
+}
+
+<hr />
+
+<div class="row">
+    <div class="col">
+        <table class="table table-responsive">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <img src="@item.Resim" width="200" />
+                    </td>
+                    <td>
+                        @item.Baslik
+                    </td>
+                    <td>
+                        <!-- Button trigger modal -->
+                        <button type="button" onclick="silmodal(this)" class="btn btn-danger" data-bs-toggle="modal" data-id="@item.UygulamaId" data-bs-target="#silModal">
+                            Sil
+                        </button>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="silModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Slider Silme İşlemi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Silmek İstiyor musunuz?
+            </div>
+            <div class="modal-footer">
+                @using (Html.BeginForm("UygulamaSil", "Uygulama", FormMethod.Post))
+                {
+                    <input type="hidden" id="hiddenId" name="id" />
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-danger">Sil</button>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        function silmodal(btn) {
+            var xid = $(btn).data('id');
+            $('#hiddenId').val(xid);
+        }
+    </script>
+
+}
