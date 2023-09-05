@@ -501,19 +501,6 @@
     <Content Include="Scripts\tinymce\utils\form_utils.js" />
     <Content Include="Scripts\tinymce\utils\mctabs.js" />
     <Content Include="Scripts\tinymce\utils\validate.js" />
-    <Content Include="SqlServerTypes\readme.htm" />
-    <Content Include="SqlServerTypes\x64\msvcr120.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SqlServerTypes\x86\msvcr120.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Views\Shared\RaporPDF.aspx" />
     <Content Include="Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
@@ -590,7 +577,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>dsIslemler.xsd</DependentUpon>
     </Compile>
-    <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Views\Shared\RaporPDF.aspx.cs">
       <DependentUpon>RaporPDF.aspx</DependentUpon>
